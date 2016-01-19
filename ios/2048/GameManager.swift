@@ -101,14 +101,14 @@ class GameManager {
     func handleRight() {
         printSubViews()
         let col = self.dimention - 1
-        for row in self.dimention..<0 {
+        for row in 0..<self.dimention {
             var oriView = [CardView?]()
             for i in 0..<self.dimention {
-               oriView.append(self.cardViews[getIndexFor(row, col: col + i)])
+               oriView.append(self.cardViews[getIndexFor(row, col: col - i)])
             }
             let newView = press(oriView)
             for i in 0..<self.dimention {
-                self.cardViews[getIndexFor(row, col: col + i)] = newView[i]
+                self.cardViews[getIndexFor(row, col: col - i)] = newView[i]
             }
         }
         print("after handleLeft")
@@ -141,14 +141,15 @@ class GameManager {
     func handleBottom() {
         printSubViews()
         let row = self.dimention - 1
-        for col in self.dimention..<0 {
+        for var col in 0..<self.dimention {
+            col = self.dimention - 1 - col
             var oriView = [CardView?]()
             for i in 0..<self.dimention {
-               oriView.append(self.cardViews[getIndexFor(row + i, col: col)])
+               oriView.append(self.cardViews[getIndexFor(row - i, col: col)])
             }
             let newView = press(oriView)
             for i in 0..<self.dimention {
-                self.cardViews[getIndexFor(row + i, col: col)] = newView[i]
+                self.cardViews[getIndexFor(row - i, col: col)] = newView[i]
             }
         }
         print("after handleLeft")
@@ -161,7 +162,33 @@ class GameManager {
         return row * dimention + col;
     }
    
-    func press(views: [CardView?]) -> [CardView?] {
+    func press(var views: [CardView?]) -> [CardView?] {
+        var first = 0
+        while (first < views.count - 1) {
+            if (views[first] == nil) {
+                first++
+            } else {
+                for var second in first + 1..<views.count {
+                    if (views[second] != nil || second == views.count - 1) {
+                        if (views[second] != nil) {
+                            if (views[first]?.value == views[second]?.value) {
+                                views[first]!.value = views[first]!.value! + 1
+                                views[second]?.removeFromSuperview()
+                                views[second] = nil
+                            }
+                            first = second
+                            break;
+                        } else {
+                            first = second
+                        }
+                    } else {
+                        second++
+                    }
+                    
+                }
+            }
+        }
+        
         var rst = [CardView?](count: views.count, repeatedValue: nil)
         var index = 0
         for v in views {
@@ -169,34 +196,8 @@ class GameManager {
                 rst[index++] = v
             }
         }
-        for i in 0..<rst.count {
-            if i < rst.count - 1 {
-                if let c = rst[i], nc = rst[i + 1] {
-                    if c.value! == nc.value! {
-                        c.value = c.value! + 1
-                        rst[i + 1]?.removeFromSuperview()
-                        rst[i + 1] = nil
-                        
-                        if i + 1 < rst.count - 2 {
-                            for j in i + 1..<rst.count - 2 {
-                                rst[j] = rst[j + 1]
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        var rst1 = [CardView?](count: views.count, repeatedValue: nil)
-        
-        for v in rst {
-            if v != nil {
-                rst1[index++] = v
-            }
-        }
         return rst
     }
-   
     
     func printSubViews() {
         for r in 0..<self.dimention {

@@ -14,14 +14,14 @@ class CardView: UIView {
     var bgColors: [UIColor] = [
         UIColor(string: "#EEE4D9"), //2
         UIColor(string: "#EDE0C7"), //4
-        UIColor(string: "#FF0000"), //8
-        UIColor(string: "#FF0000"), //16
-        UIColor(string: "#FF0000"), //32
-        UIColor(string: "#FF0000"), //64
-        UIColor(string: "#FF0000"), //128
-        UIColor(string: "#FF0000"), //256
-        UIColor(string: "#FF0000"), //512
-        UIColor(string: "#FF0000"), //1024
+        UIColor(string: "#F3B274"), //8
+        UIColor(string: "#F7955D"), //16
+        UIColor(string: "#F87C5A"), //32
+        UIColor(string: "#F95D31"), //64
+        UIColor(string: "#EED06B"), //128
+        UIColor(string: "#EECD58"), //256
+        UIColor(string: "#EEC943"), //512
+        UIColor(string: "#EEC62C"), //1024
         UIColor(string: "#FF0000") //2048
     ]
     
